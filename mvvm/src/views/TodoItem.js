@@ -15,16 +15,19 @@ let TodoItem = React.createClass({
 
   handleSave(text) {
     if (text.length === 0) {
-      this.props.onDataChange('delete',[],null);
+      var todos = this.props.todo.parent();
+      var todoIndex = this.props.todo.index()
+      var newTodos = todos.splice(todoIndex,1);
+      todos.change(newTodos);
     } else {
-      this.props.onDataChange('update', ['text'],text);
+      this.props.todo.link('text').change(text);
     }
     this.setState({ editing: false });
   },
 
   render() {
     
-    const {todo, completeTodo} = this.props;
+    const {completeTodo,todo} = this.props;
     let element;
     if (this.state.editing) {
       element = (

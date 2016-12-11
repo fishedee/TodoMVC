@@ -55,28 +55,31 @@ let MainSection = React.createClass({
     }
   },
 
-  onDataChange(prefix,operation,key,value){
-    key = [prefix,...key];
-    this.props.onDataChange(operation,key,value);
-  },
-
   render() {
     const { todos, completeTodo} = this.props;
     const { filter } = this.state;
     
-    const filteredTodos = todos.filter(TODO_FILTERS[filter]);
-    const completedCount = todos.reduce((count, todo) =>
-      todo.get('completed') ? count + 1 : count,
-      0
-    );
+    let completedCount = 0;
+    todos.forEach(function(todo){
+      if(todo.get('completed')){
+        completedCount++;
+      }
+    });
     
+    var todoItems = [];
+    todos.forEach(function(todo,index){
+        if( TODO_FILTERS[filter](todo) == false ){
+          return;
+        }
+        todoItems.push(
+          <TodoItem key={todos.get(index).get('id')} todo={todos.link(index)} completeTodo={completeTodo.bind(null,index)}  />
+        );
+    })
     return (
       <section className="main">
         {this.renderToggleAll(completedCount)}
         <ul className="todo-list">
-          {filteredTodos.map((todo,index) =>
-            <TodoItem key={todo.get('id')} todo={todo} completeTodo={completeTodo.bind(null,index)}  onDataChange={this.onDataChange.bind(null,index)}/>
-          )}
+          {todoItems}
         </ul>
         {this.renderFooter(completedCount)}
       </section>

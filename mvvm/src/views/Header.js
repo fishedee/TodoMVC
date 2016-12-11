@@ -1,16 +1,19 @@
 import React from 'react';
 import TodoTextInput from './TodoTextInput';
+import Immutable from 'immutable';
 
 let countId = 10001;
 
 let Header = React.createClass({
   handleSave(text) {
     if (text.length !== 0) {
-      this.props.onDataChange('insert',[],{
+      var todos = this.props.todos;
+      var newTodos = todos.push(Immutable.fromJS({
         completed:false,
         text:text,
-        id:countId++,
-      });
+        id:countId++
+      }));
+      todos.change(newTodos);
     }
   },
 
