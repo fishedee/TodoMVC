@@ -58,7 +58,7 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	__webpack_require__(170);
+	__webpack_require__(171);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19665,6 +19665,8 @@
 
 	'use strict';
 
+	var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -19688,7 +19690,11 @@
 	  getInitialState: function getInitialState() {
 	    return (0, _linkState2.default)(this, 'data', {
 	      count: 0,
-	      todos: []
+	      todos: [{
+	        completed: false,
+	        text: 'mm',
+	        id: 1000
+	      }]
 	    });
 	  },
 	  addLogCount: function addLogCount() {
@@ -19702,28 +19708,102 @@
 	    this.addLogCount();
 	    var todos = this.state.data.todos;
 	    var areAllMarked = true;
-	    for (var i in todos) {
-	      if (todos[i].completed == false) {
-	        areAllMarked = false;
-	        break;
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+
+	    try {
+	      for (var _iterator = todos[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var _step$value = _slicedToArray(_step.value, 2);
+
+	        var i = _step$value[0];
+	        var todo = _step$value[1];
+
+	        if (todo.completed == false) {
+	          areAllMarked = false;
+	          break;
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
 	      }
 	    }
-	    for (var i in todos) {
-	      todos[i].completed = !areAllMarked;
+
+	    var _iteratorNormalCompletion2 = true;
+	    var _didIteratorError2 = false;
+	    var _iteratorError2 = undefined;
+
+	    try {
+	      for (var _iterator2 = todos[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	        var _step2$value = _slicedToArray(_step2.value, 2);
+
+	        var i = _step2$value[0];
+	        var todo = _step2$value[1];
+
+	        todo.completed = !areAllMarked;
+	      }
+	    } catch (err) {
+	      _didIteratorError2 = true;
+	      _iteratorError2 = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	          _iterator2.return();
+	        }
+	      } finally {
+	        if (_didIteratorError2) {
+	          throw _iteratorError2;
+	        }
+	      }
 	    }
 	  },
 	  clearCompleted: function clearCompleted() {
 	    var todos = this.state.data.todos;
 	    var newTodos = [];
-	    for (var i in todos) {
-	      if (!todos[i].completed) {
-	        newTodos.push(todos[i]);
+	    var _iteratorNormalCompletion3 = true;
+	    var _didIteratorError3 = false;
+	    var _iteratorError3 = undefined;
+
+	    try {
+	      for (var _iterator3 = todos[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+	        var _step3$value = _slicedToArray(_step3.value, 2);
+
+	        var i = _step3$value[0];
+	        var todo = _step3$value[1];
+
+	        if (!todo.completed) {
+	          newTodos.push(todos[i]);
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError3 = true;
+	      _iteratorError3 = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+	          _iterator3.return();
+	        }
+	      } finally {
+	        if (_didIteratorError3) {
+	          throw _iteratorError3;
+	        }
 	      }
 	    }
+
 	    this.state.data.todos = newTodos;
 	  },
 	  render: function render() {
-	    console.log(this.state.data);
+	    console.log(this.state.data.todos);
 	    return _react2.default.createElement(_app2.default, {
 	      data: this.state.data,
 	      clearCompleted: this.clearCompleted,
@@ -24926,6 +25006,8 @@
 
 	'use strict';
 
+	var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
+
 	var _TODO_FILTERS;
 
 	Object.defineProperty(exports, "__esModule", {
@@ -24969,12 +25051,37 @@
 	    var todos = this.props.todos;
 
 	    var atLeastOneCompleted = false;
-	    for (var i in todos) {
-	      if (todos[i].completed) {
-	        atLeastOneCompleted = true;
-	        break;
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+
+	    try {
+	      for (var _iterator = todos[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var _step$value = _slicedToArray(_step.value, 2);
+
+	        var i = _step$value[0];
+	        var todo = _step$value[1];
+
+	        if (todo.completed) {
+	          atLeastOneCompleted = true;
+	          break;
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
 	      }
 	    }
+
 	    if (atLeastOneCompleted) {
 	      this.props.clearCompleted();
 	    }
@@ -25015,21 +25122,70 @@
 	    var filter = this.state.filter;
 
 	    var completedCount = 0;
-	    for (var i in todos) {
-	      var todo = todos[i];
-	      if (todo.completed) {
-	        completedCount++;
+	    var _iteratorNormalCompletion2 = true;
+	    var _didIteratorError2 = false;
+	    var _iteratorError2 = undefined;
+
+	    try {
+	      for (var _iterator2 = todos[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	        var _step2$value = _slicedToArray(_step2.value, 2);
+
+	        var i = _step2$value[0];
+	        var todo = _step2$value[1];
+
+	        if (todo.completed) {
+	          completedCount++;
+	        }
 	      }
-	    };
+	    } catch (err) {
+	      _didIteratorError2 = true;
+	      _iteratorError2 = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	          _iterator2.return();
+	        }
+	      } finally {
+	        if (_didIteratorError2) {
+	          throw _iteratorError2;
+	        }
+	      }
+	    }
+
+	    ;
 
 	    var todoItems = [];
-	    for (var index in todos) {
-	      var todo = todos[index];
-	      if (TODO_FILTERS[filter](todo) == false) {
-	        continue;
+	    var _iteratorNormalCompletion3 = true;
+	    var _didIteratorError3 = false;
+	    var _iteratorError3 = undefined;
+
+	    try {
+	      for (var _iterator3 = todos[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+	        var _step3$value = _slicedToArray(_step3.value, 2);
+
+	        var index = _step3$value[0];
+	        var todo = _step3$value[1];
+
+	        if (TODO_FILTERS[filter](todo) == false) {
+	          continue;
+	        }
+	        todoItems.push(_react2.default.createElement(_TodoItem2.default, { key: todos[index].id, todos: todos, index: index, completeTodo: completeTodo.bind(null, index) }));
 	      }
-	      todoItems.push(_react2.default.createElement(_TodoItem2.default, { key: todos[index].id, todos: todos, index: index, completeTodo: completeTodo.bind(null, index) }));
+	    } catch (err) {
+	      _didIteratorError3 = true;
+	      _iteratorError3 = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+	          _iterator3.return();
+	        }
+	      } finally {
+	        if (_didIteratorError3) {
+	          throw _iteratorError3;
+	        }
+	      }
 	    }
+
 	    return _react2.default.createElement(
 	      'section',
 	      { className: 'main' },
@@ -25259,24 +25415,33 @@
 
 /***/ },
 /* 169 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	function LinkProperty(data, change, result) {
-		for (var i in data) {
+
+	var _observer = __webpack_require__(170);
+
+	var _observer2 = _interopRequireDefault(_observer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/*
+	function LinkProperty(data,change,result){
+		for( var i in data ){
 			var value = data[i];
-			value = LinkData(value, change);
-			(function (value) {
-				Object.defineProperty(result, i, {
-					set: function set(inValue) {
-						value = LinkData(inValue, change);
+			value = LinkData(value,change);
+			(function(value){
+				Object.defineProperty(result,i,{
+					enumerable: true,
+					set:function(inValue){
+						value = LinkData(inValue,change);
 						change();
 					},
-					get: function get() {
+					get:function(){
 						return value;
 					}
 				});
@@ -25284,9 +25449,9 @@
 		}
 	}
 
-	function LinkFunction(data, result) {
-		for (var i in data) {
-			Object.defineProperty(result, i, {
+	function LinkFunction(data,result){
+		for( var i in data ){
+			Object.defineProperty(result,i,{
 				enumerable: false,
 				configurable: false,
 				writable: false,
@@ -25295,83 +25460,86 @@
 		}
 	}
 
-	function LinkArray(data, change) {
+	function LinkArray(data,change){
 		var result = [];
-		LinkProperty(data, change, result);
+		LinkProperty(data,change,result);
 		LinkFunction({
-			change: change
-		}, result);
-		var arrayProto = Array.prototype;
-		var arrayFun = ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'];
-
-		var _loop = function _loop() {
-			var methodName = arrayFun[i];
-			var original = arrayProto[methodName];
-			var methodGo = function methodGo() {
-				var i = arguments.length;
-				var args = new Array(i);
+			change:change
+		},result);
+		const arrayProto = Array.prototype;
+		var arrayFun = [
+		  'push',
+		  'pop',
+		  'shift',
+		  'unshift',
+		  'splice',
+		  'sort',
+		  'reverse'
+		];
+		for( var i in arrayFun ){
+			const methodName = arrayFun[i];
+			const original = arrayProto[methodName];
+			const methodGo = function() {
+				let i = arguments.length;
+				const args = new Array(i)
 				while (i--) {
-					args[i] = arguments[i];
+				  args[i] = arguments[i]
 				}
 				var inserted = args.length;
 				switch (methodName) {
-					case 'push':
-						inserted = 0;
-						break;
-					case 'unshift':
-						inserted = 0;
-						break;
-					case 'splice':
-						inserted = 2;
-						break;
+				  case 'push':
+				    inserted = 0;
+				    break
+				  case 'unshift':
+				    inserted = 0;
+				    break
+				  case 'splice':
+				    inserted = 2;
+				    break
 				}
-				for (var j = inserted; j < args.length; ++j) {
-					args[j] = LinkData(args[j], change);
+				for( var j = inserted ; j < args.length ; ++j ){
+					args[j] = LinkData(args[j],change);
 				}
 				change();
 				return original.apply(this, args);
 			};
-			linkFun = {};
-
+			var linkFun = {};
 			linkFun[methodName] = methodGo;
-			LinkFunction(linkFun, result);
-		};
-
-		for (var i in arrayFun) {
-			var linkFun;
-
-			_loop();
-		}
+			LinkFunction(linkFun,result);
+		} 
 		return result;
 	}
 
-	function LinkObject(data, change) {
+	function LinkObject(data,change){
 		var result = {};
-		LinkProperty(data, change, result);
+		LinkProperty(data,change,result);
 		LinkFunction({
-			change: change
-		}, result);
+			change:change
+		},result);
 		return result;
 	}
 
-	function LinkData(data, change) {
-		if (data == null || typeof data == 'undefined') {
+	function LinkData(data,change){
+		if( data == null ||
+			typeof data == 'undefined' ){
 			return data;
 		}
-		if (typeof data == 'number' || typeof data == 'string' || typeof data == 'boolean') {
+		if( typeof data == 'number' ||
+			typeof data == 'string' ||
+			typeof data == 'boolean' ){
 			return data;
-		} else if (data instanceof Array) {
-			return LinkArray(data, change);
-		} else {
-			return LinkObject(data, change);
+		}else if( data instanceof Array ){
+			return LinkArray(data,change)
+		}else{
+			return LinkObject(data,change);
 		}
 	}
+	*/
 
 	function LinkState(component, key, state) {
-		var change = function change() {
+		(0, _observer2.default)(state, function () {
 			component.setState({});
-		};
-		state = LinkData(state, change);
+		});
 		var result = {};
 		result[key] = state;
 		return result;
@@ -25381,15 +25549,199 @@
 
 /***/ },
 /* 170 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+	var observe = function observe(target, arr, callback) {
+	    var _observe = function _observe(target, arr, callback) {
+	        if (!target.$observer) target.$observer = this;
+	        var $observer = target.$observer;
+	        var eventPropArr = [];
+	        if (observe.isArray(target)) {
+	            if (target.length === 0) {
+	                target.$observeProps = {};
+	                target.$observeProps.$observerPath = "#";
+	            }
+	            $observer.mock(target);
+	        }
+	        for (var prop in target) {
+	            if (target.hasOwnProperty(prop)) {
+	                if (callback) {
+	                    if (observe.isArray(arr) && observe.isInArray(arr, prop)) {
+	                        eventPropArr.push(prop);
+	                        $observer.watch(target, prop);
+	                    } else if (observe.isString(arr) && prop == arr) {
+	                        eventPropArr.push(prop);
+	                        $observer.watch(target, prop);
+	                    }
+	                } else {
+	                    eventPropArr.push(prop);
+	                    $observer.watch(target, prop);
+	                }
+	            }
+	        }
+	        $observer.target = target;
+	        if (!$observer.propertyChangedHandler) $observer.propertyChangedHandler = [];
+	        var propChanged = callback ? callback : arr;
+	        $observer.propertyChangedHandler.push({ all: !callback, propChanged: propChanged, eventPropArr: eventPropArr });
+	    };
+	    _observe.prototype = {
+	        "onPropertyChanged": function onPropertyChanged(prop, value, oldValue, target, path) {
+	            if (value !== oldValue && this.propertyChangedHandler) {
+	                var rootName = observe._getRootName(prop, path);
+	                for (var i = 0, len = this.propertyChangedHandler.length; i < len; i++) {
+	                    var handler = this.propertyChangedHandler[i];
+	                    if (handler.all || observe.isInArray(handler.eventPropArr, rootName) || rootName.indexOf("Array-") === 0) {
+	                        handler.propChanged.call(this.target, prop, value, oldValue, path);
+	                    }
+	                }
+	            }
+	            if (prop.indexOf("Array-") !== 0 && (typeof value === "undefined" ? "undefined" : _typeof(value)) === "object") {
+	                this.watch(target, prop, target.$observeProps.$observerPath);
+	            }
+	        },
+	        "mock": function mock(target) {
+	            var self = this;
+	            observe.methods.forEach(function (item) {
+	                target[item] = function () {
+	                    var old = Array.prototype.slice.call(this, 0);
+	                    var result = Array.prototype[item].apply(this, Array.prototype.slice.call(arguments));
+	                    if (new RegExp("\\b" + item + "\\b").test(observe.triggerStr)) {
+	                        for (var cprop in this) {
+	                            if (this.hasOwnProperty(cprop) && !observe.isFunction(this[cprop])) {
+	                                self.watch(this, cprop, this.$observeProps.$observerPath);
+	                            }
+	                        }
+	                        //todo
+	                        self.onPropertyChanged("Array-" + item, this, old, this, this.$observeProps.$observerPath);
+	                    }
+	                    return result;
+	                };
+	                target['real' + item.substring(0, 1).toUpperCase() + item.substring(1)] = function () {
+	                    return Array.prototype[item].apply(this, Array.prototype.slice.call(arguments));
+	                };
+	                target[Symbol.iterator] = function () {
+	                    var keys = [];
+
+	                    target.forEach(function (value, key) {
+	                        keys.push(key);
+	                    });
+	                    var index = 0;
+	                    return {
+	                        next: function next() {
+	                            return { done: index >= keys.length, value: [keys[index], target[index++]] };
+	                        }
+	                    };
+	                };
+	            });
+	        },
+	        "watch": function watch(target, prop, path) {
+	            if (prop === "$observeProps" || prop === "$observer") return;
+	            if (observe.isFunction(target[prop])) return;
+	            if (!target.$observeProps) target.$observeProps = {};
+	            if (path !== undefined) {
+	                target.$observeProps.$observerPath = path;
+	            } else {
+	                target.$observeProps.$observerPath = "#";
+	            }
+	            var self = this;
+	            var currentValue = target.$observeProps[prop] = target[prop];
+	            Object.defineProperty(target, prop, {
+	                get: function get() {
+	                    return this.$observeProps[prop];
+	                },
+	                set: function set(value) {
+	                    var old = this.$observeProps[prop];
+	                    this.$observeProps[prop] = value;
+	                    self.onPropertyChanged(prop, value, old, this, target.$observeProps.$observerPath);
+	                }
+	            });
+	            if ((typeof currentValue === "undefined" ? "undefined" : _typeof(currentValue)) == "object") {
+	                if (observe.isArray(currentValue)) {
+	                    this.mock(currentValue);
+	                    if (currentValue.length === 0) {
+	                        if (!currentValue.$observeProps) currentValue.$observeProps = {};
+	                        if (path !== undefined) {
+	                            currentValue.$observeProps.$observerPath = path;
+	                        } else {
+	                            currentValue.$observeProps.$observerPath = "#";
+	                        }
+	                    }
+	                }
+	                for (var cprop in currentValue) {
+	                    if (currentValue.hasOwnProperty(cprop)) {
+	                        this.watch(currentValue, cprop, target.$observeProps.$observerPath + "-" + prop);
+	                    }
+	                }
+	            }
+	        }
+	    };
+	    return new _observe(target, arr, callback);
+	};
+	observe.methods = ["concat", "copyWithin", "entries", "every", "fill", "filter", "find", "findIndex", "forEach", "includes", "indexOf", "join", "keys", "lastIndexOf", "map", "pop", "push", "reduce", "reduceRight", "reverse", "shift", "slice", "some", "sort", "splice", "toLocaleString", "toString", "unshift", "values", "size"];
+	observe.triggerStr = ["concat", "copyWithin", "fill", "pop", "push", "reverse", "shift", "sort", "splice", "unshift", "size"].join(",");
+	observe.isArray = function (obj) {
+	    return Object.prototype.toString.call(obj) === '[object Array]';
+	};
+	observe.isString = function (obj) {
+	    return typeof obj === "string";
+	};
+	observe.isInArray = function (arr, item) {
+	    for (var i = arr.length; --i > -1;) {
+	        if (item === arr[i]) return true;
+	    }
+	    return false;
+	};
+	observe.isFunction = function (obj) {
+	    return Object.prototype.toString.call(obj) == '[object Function]';
+	};
+	observe._getRootName = function (prop, path) {
+	    if (path === "#") {
+	        return prop;
+	    }
+	    return path.split("-")[1];
+	};
+
+	observe.add = function (obj, prop) {
+	    var $observer = obj.$observer;
+	    $observer.watch(obj, prop);
+	};
+
+	observe.set = function (obj, prop, value, exec) {
+	    if (!exec) {
+	        obj[prop] = value;
+	    }
+	    var $observer = obj.$observer;
+	    $observer.watch(obj, prop);
+	    if (exec) {
+	        obj[prop] = value;
+	    }
+	};
+
+	Array.prototype.size = function (length) {
+	    this.length = length;
+	};
+
+	exports.default = observe;
+
+/***/ },
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(171);
+	var content = __webpack_require__(172);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(173)(content, {});
+	var update = __webpack_require__(174)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25406,10 +25758,10 @@
 	}
 
 /***/ },
-/* 171 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(172)();
+	exports = module.exports = __webpack_require__(173)();
 	// imports
 
 
@@ -25420,7 +25772,7 @@
 
 
 /***/ },
-/* 172 */
+/* 173 */
 /***/ function(module, exports) {
 
 	/*
@@ -25476,7 +25828,7 @@
 
 
 /***/ },
-/* 173 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

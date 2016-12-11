@@ -1,9 +1,13 @@
+import observe from './observer'
+
+/*
 function LinkProperty(data,change,result){
 	for( var i in data ){
 		var value = data[i];
 		value = LinkData(value,change);
 		(function(value){
 			Object.defineProperty(result,i,{
+				enumerable: true,
 				set:function(inValue){
 					value = LinkData(inValue,change);
 					change();
@@ -101,12 +105,12 @@ function LinkData(data,change){
 		return LinkObject(data,change);
 	}
 }
+*/
 
 function LinkState(component,key,state){
-	var change = function(){
+	observe(state,function(){
 		component.setState({});
-	}
-	state = LinkData(state,change);
+	});
 	var result = {};
 	result[key] = state;
 	return result;
