@@ -18,7 +18,6 @@ let TodoItem = React.createClass({
       var todos = this.props.todos;
       var todoIndex = this.props.index;
       todos.splice(todoIndex,1);
-      todos.change();
     } else {
       this.props.todos[this.props.index].text = text;
     }

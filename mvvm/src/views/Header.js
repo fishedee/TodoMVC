@@ -13,7 +13,6 @@ let Header = React.createClass({
         text:text,
         id:countId++
       });
-      todos.change();
     }
   },
 

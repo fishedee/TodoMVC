@@ -5,7 +5,7 @@ function LinkProperty(data,change,result){
 		(function(value){
 			Object.defineProperty(result,i,{
 				set:function(inValue){
-					value = inValue;
+					value = LinkData(inValue,change);
 					change();
 				},
 				get:function(){
@@ -33,6 +33,47 @@ function LinkArray(data,change){
 	LinkFunction({
 		change:change
 	},result);
+	const arrayProto = Array.prototype;
+	var arrayFun = [
+	  'push',
+	  'pop',
+	  'shift',
+	  'unshift',
+	  'splice',
+	  'sort',
+	  'reverse'
+	];
+	for( var i in arrayFun ){
+		const methodName = arrayFun[i];
+		const original = arrayProto[methodName];
+		const methodGo = function() {
+			let i = arguments.length;
+			const args = new Array(i)
+			while (i--) {
+			  args[i] = arguments[i]
+			}
+			var inserted = args.length;
+			switch (methodName) {
+			  case 'push':
+			    inserted = 0;
+			    break
+			  case 'unshift':
+			    inserted = 0;
+			    break
+			  case 'splice':
+			    inserted = 2;
+			    break
+			}
+			for( var j = inserted ; j < args.length ; ++j ){
+				args[j] = LinkData(args[j],change);
+			}
+			change();
+			return original.apply(this, args);
+		};
+		var linkFun = {};
+		linkFun[methodName] = methodGo;
+		LinkFunction(linkFun,result);
+	} 
 	return result;
 }
 

@@ -17,6 +17,7 @@ let MainSection = React.createClass({
   },
 
   handleClearCompleted() {
+    const {todos} = this.props;
     var atLeastOneCompleted = false;
     for( var i in todos ){
       if( todos[i].completed ){

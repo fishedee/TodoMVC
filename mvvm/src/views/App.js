@@ -4,7 +4,6 @@ import MainSection from './MainSection';
 
 let App = React.createClass({
   render() {
-    console.log(this.props);
     return (
       <div>
         <div>操作次数:{this.props.data.count }</div>

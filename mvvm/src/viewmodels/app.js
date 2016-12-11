@@ -13,7 +13,6 @@ let App = React.createClass({
     this.state.data.count++;
   },
   completeTodo(index){
-    this.addLogCount();
     var todo = this.state.data.todos[index];
     todo.completed = !todo.completed;
   },
@@ -32,7 +31,6 @@ let App = React.createClass({
     }
   },
   clearCompleted(){
-    this.addLogCount();
     var todos = this.state.data.todos;
     var newTodos = [];
     for(var i in todos ){
@@ -43,6 +41,7 @@ let App = React.createClass({
     this.state.data.todos = newTodos;
   },
   render() {
+    console.log(this.state.data);
     return (
       <AppView
         data={this.state.data}
