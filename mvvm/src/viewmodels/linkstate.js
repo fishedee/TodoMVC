@@ -1,57 +1,73 @@
-function LinkData(data,key,parent){
-	var bindData;
+function LinkProperty(data,change,result){
+	for( var i in data ){
+		var value = data[i];
+		value = LinkData(value,change);
+		(function(value){
+			Object.defineProperty(result,i,{
+				set:function(inValue){
+					value = inValue;
+					change();
+				},
+				get:function(){
+					return value;
+				}
+			});
+		})(value);
+	}
+}
+
+function LinkFunction(data,result){
+	for( var i in data ){
+		Object.defineProperty(result,i,{
+			enumerable: false,
+			configurable: false,
+			writable: false,
+			value: data[i]
+		});
+	}
+}
+
+function LinkArray(data,change){
+	var result = [];
+	LinkProperty(data,change,result);
+	LinkFunction({
+		change:change
+	},result);
+	return result;
+}
+
+function LinkObject(data,change){
+	var result = {};
+	LinkProperty(data,change,result);
+	LinkFunction({
+		change:change
+	},result);
+	return result;
+}
+
+function LinkData(data,change){
+	if( data == null ||
+		typeof data == 'undefined' ){
+		return data;
+	}
 	if( typeof data == 'number' ||
 		typeof data == 'string' ||
-		typeof data == 'boolean'){
-		bindData = {
-			value:data,
-			get:function(){
-				return null;
-			}
-		}
+		typeof data == 'boolean' ){
+		return data;
+	}else if( data instanceof Array ){
+		return LinkArray(data,change)
 	}else{
-		bindData = data;
+		return LinkObject(data,change);
 	}
-	bindData.parent = function(){
-		return parent;
-	}
-	bindData.index = function(){
-		return key;
-	}
-	bindData.link = function(index){
-		var newValue = bindData.get(index);
-		return LinkData(newValue,index,bindData);
-	}
-	bindData.change = function(value){
-		var newValue = parent.set(key,value);
-		parent.change(newValue);
-	}
-	return bindData;
 }
 
-function LinkTopData(component,key,value){
-	var bindData = value;
-	bindData.parent = function(){
-		return null;
-	}
-	bindData.index = function(){
-		return -1;
-	}
-	bindData.link = function(index){
-		var newValue = bindData.get(index);
-		return LinkData(newValue,index,bindData);
-	}
-	bindData.change = function(value){
-		component.state[key] = LinkTopData(component,key,value);
+function LinkState(component,key,state){
+	var change = function(){
 		component.setState({});
 	}
-	return bindData;
-}
-
-function LinkState(component,key,value){
-	var bindData = LinkTopData(component,key,value);
+	state = LinkData(state,change);
 	var result = {};
-	result[key] = bindData;
+	result[key] = state;
 	return result;
 }
 

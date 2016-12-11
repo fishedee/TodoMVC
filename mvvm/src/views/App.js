@@ -4,12 +4,13 @@ import MainSection from './MainSection';
 
 let App = React.createClass({
   render() {
+    console.log(this.props);
     return (
       <div>
-        <div>操作次数:{this.props.data.get('count')}</div>
-        <Header todos={this.props.data.link('todos')} />
+        <div>操作次数:{this.props.data.count }</div>
+        <Header todos={this.props.data.todos} />
         <MainSection 
-          todos={this.props.data.link('todos')}
+          todos={this.props.data.todos}
           clearCompleted={this.props.clearCompleted} 
           completeAll={this.props.completeAll}
           completeTodo={this.props.completeTodo}

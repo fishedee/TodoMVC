@@ -5,8 +5,8 @@ import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 
 const TODO_FILTERS = {
   [SHOW_ALL]: () => true,
-  [SHOW_ACTIVE]: todo => !todo.get('completed'),
-  [SHOW_COMPLETED]: todo => todo.get('completed')
+  [SHOW_ACTIVE]: todo => !todo.completed,
+  [SHOW_COMPLETED]: todo => todo.completed
 };
 
 let MainSection = React.createClass({
@@ -17,7 +17,13 @@ let MainSection = React.createClass({
   },
 
   handleClearCompleted() {
-    const atLeastOneCompleted = this.props.todos.some(todo => todo.get('completed'));
+    var atLeastOneCompleted = false;
+    for( var i in todos ){
+      if( todos[i].completed ){
+        atLeastOneCompleted = true;
+        break;
+      }
+    }
     if (atLeastOneCompleted) {
       this.props.clearCompleted();
     }
@@ -29,11 +35,11 @@ let MainSection = React.createClass({
 
   renderToggleAll(completedCount) {
     const { todos, completeAll } = this.props;
-    if (todos.size > 0) {
+    if (todos.length > 0) {
       return (
         <input className="toggle-all"
                type="checkbox"
-               checked={completedCount === todos.size}
+               checked={completedCount === todos.length}
                onChange={completeAll} />
       );
     }
@@ -42,9 +48,9 @@ let MainSection = React.createClass({
   renderFooter(completedCount) {
     const { todos } = this.props;
     const { filter } = this.state;
-    const activeCount = todos.size - completedCount;
+    const activeCount = todos.length - completedCount;
 
-    if (todos.size) {
+    if (todos.length) {
       return (
         <Footer completedCount={completedCount}
                 activeCount={activeCount}
@@ -60,21 +66,23 @@ let MainSection = React.createClass({
     const { filter } = this.state;
     
     let completedCount = 0;
-    todos.forEach(function(todo){
-      if(todo.get('completed')){
+    for(var i in todos ){
+      var todo = todos[i];
+      if(todo.completed){
         completedCount++;
       }
-    });
+    };
     
     var todoItems = [];
-    todos.forEach(function(todo,index){
+    for(var index in todos ){
+        var todo = todos[index];
         if( TODO_FILTERS[filter](todo) == false ){
-          return;
+          continue;
         }
         todoItems.push(
-          <TodoItem key={todos.get(index).get('id')} todo={todos.link(index)} completeTodo={completeTodo.bind(null,index)}  />
+          <TodoItem key={todos[index].id} todos={todos} index={index} completeTodo={completeTodo.bind(null,index)}  />
         );
-    })
+    }
     return (
       <section className="main">
         {this.renderToggleAll(completedCount)}

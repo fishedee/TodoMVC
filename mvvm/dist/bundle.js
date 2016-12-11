@@ -19681,54 +19681,50 @@
 
 	var _linkState2 = _interopRequireDefault(_linkState);
 
-	var _immutable = __webpack_require__(164);
-
-	var _immutable2 = _interopRequireDefault(_immutable);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var App = _react2.default.createClass({
 	  displayName: 'App',
 	  getInitialState: function getInitialState() {
-	    return (0, _linkState2.default)(this, 'data', _immutable2.default.fromJS({
+	    return (0, _linkState2.default)(this, 'data', {
 	      count: 0,
 	      todos: []
-	    }));
+	    });
 	  },
 	  addLogCount: function addLogCount() {
-	    var count = this.state.data.link('count');
-	    count.change(count.value + 1);
+	    this.state.data.count++;
 	  },
 	  completeTodo: function completeTodo(index) {
 	    this.addLogCount();
-	    var completed = this.state.data.link('todos').link(index).link('completed');
-	    completed.change(!completed.value);
+	    var todo = this.state.data.todos[index];
+	    todo.completed = !todo.completed;
 	  },
 	  completeAll: function completeAll() {
 	    this.addLogCount();
-	    var todos = this.state.data.link('todos');
+	    var todos = this.state.data.todos;
 	    var areAllMarked = true;
-	    for (var i = 0; i != todos.size; i++) {
-	      if (todos.get(i).get('completed') == false) {
+	    for (var i in todos) {
+	      if (todos[i].completed == false) {
 	        areAllMarked = false;
 	        break;
 	      }
 	    }
-	    var newTodos = todos.map(function (todo) {
-	      return todo.set('completed', !areAllMarked);
-	    });
-	    todos.change(newTodos);
+	    for (var i in todos) {
+	      todos[i].completed = !areAllMarked;
+	    }
 	  },
 	  clearCompleted: function clearCompleted() {
 	    this.addLogCount();
-	    var todos = this.state.data.link('todos');
-	    var newTodos = todos.filter(function (todo) {
-	      return !todo.get('completed');
-	    });
-	    todos.change(newTodos);
+	    var todos = this.state.data.todos;
+	    var newTodos = [];
+	    for (var i in todos) {
+	      if (!todos[i].completed) {
+	        newTodos.push(todos[i]);
+	      }
+	    }
+	    this.state.data.todos = newTodos;
 	  },
 	  render: function render() {
-	    console.log(this.state.data.toJS());
 	    return _react2.default.createElement(_app2.default, {
 	      data: this.state.data,
 	      clearCompleted: this.clearCompleted,
@@ -19767,6 +19763,7 @@
 	var App = _react2.default.createClass({
 	  displayName: 'App',
 	  render: function render() {
+	    console.log(this.props);
 	    return _react2.default.createElement(
 	      'div',
 	      null,
@@ -19774,11 +19771,11 @@
 	        'div',
 	        null,
 	        '操作次数:',
-	        this.props.data.get('count')
+	        this.props.data.count
 	      ),
-	      _react2.default.createElement(_Header2.default, { todos: this.props.data.link('todos') }),
+	      _react2.default.createElement(_Header2.default, { todos: this.props.data.todos }),
 	      _react2.default.createElement(_MainSection2.default, {
-	        todos: this.props.data.link('todos'),
+	        todos: this.props.data.todos,
 	        clearCompleted: this.props.clearCompleted,
 	        completeAll: this.props.completeAll,
 	        completeTodo: this.props.completeTodo
@@ -19820,12 +19817,12 @@
 	  handleSave: function handleSave(text) {
 	    if (text.length !== 0) {
 	      var todos = this.props.todos;
-	      var newTodos = todos.push(_immutable2.default.fromJS({
+	      todos.push({
 	        completed: false,
 	        text: text,
 	        id: countId++
-	      }));
-	      todos.change(newTodos);
+	      });
+	      todos.change();
 	    }
 	  },
 	  render: function render() {
@@ -24959,9 +24956,9 @@
 	var TODO_FILTERS = (_TODO_FILTERS = {}, _defineProperty(_TODO_FILTERS, _TodoFilters.SHOW_ALL, function () {
 	  return true;
 	}), _defineProperty(_TODO_FILTERS, _TodoFilters.SHOW_ACTIVE, function (todo) {
-	  return !todo.get('completed');
+	  return !todo.completed;
 	}), _defineProperty(_TODO_FILTERS, _TodoFilters.SHOW_COMPLETED, function (todo) {
-	  return todo.get('completed');
+	  return todo.completed;
 	}), _TODO_FILTERS);
 
 	var MainSection = _react2.default.createClass({
@@ -24972,9 +24969,13 @@
 	    };
 	  },
 	  handleClearCompleted: function handleClearCompleted() {
-	    var atLeastOneCompleted = this.props.todos.some(function (todo) {
-	      return todo.get('completed');
-	    });
+	    var atLeastOneCompleted = false;
+	    for (var i in todos) {
+	      if (todos[i].completed) {
+	        atLeastOneCompleted = true;
+	        break;
+	      }
+	    }
 	    if (atLeastOneCompleted) {
 	      this.props.clearCompleted();
 	    }
@@ -24987,10 +24988,10 @@
 	    var todos = _props.todos;
 	    var completeAll = _props.completeAll;
 
-	    if (todos.size > 0) {
+	    if (todos.length > 0) {
 	      return _react2.default.createElement('input', { className: 'toggle-all',
 	        type: 'checkbox',
-	        checked: completedCount === todos.size,
+	        checked: completedCount === todos.length,
 	        onChange: completeAll });
 	    }
 	  },
@@ -24998,9 +24999,9 @@
 	    var todos = this.props.todos;
 	    var filter = this.state.filter;
 
-	    var activeCount = todos.size - completedCount;
+	    var activeCount = todos.length - completedCount;
 
-	    if (todos.size) {
+	    if (todos.length) {
 	      return _react2.default.createElement(_Footer2.default, { completedCount: completedCount,
 	        activeCount: activeCount,
 	        filter: filter,
@@ -25015,19 +25016,21 @@
 	    var filter = this.state.filter;
 
 	    var completedCount = 0;
-	    todos.forEach(function (todo) {
-	      if (todo.get('completed')) {
+	    for (var i in todos) {
+	      var todo = todos[i];
+	      if (todo.completed) {
 	        completedCount++;
 	      }
-	    });
+	    };
 
 	    var todoItems = [];
-	    todos.forEach(function (todo, index) {
+	    for (var index in todos) {
+	      var todo = todos[index];
 	      if (TODO_FILTERS[filter](todo) == false) {
-	        return;
+	        continue;
 	      }
-	      todoItems.push(_react2.default.createElement(_TodoItem2.default, { key: todos.get(index).get('id'), todo: todos.link(index), completeTodo: completeTodo.bind(null, index) }));
-	    });
+	      todoItems.push(_react2.default.createElement(_TodoItem2.default, { key: todos[index].id, todos: todos, index: index, completeTodo: completeTodo.bind(null, index) }));
+	    }
 	    return _react2.default.createElement(
 	      'section',
 	      { className: 'main' },
@@ -25053,58 +25056,73 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	function LinkData(data, key, parent) {
-		var bindData;
-		if (typeof data == 'number' || typeof data == 'string' || typeof data == 'boolean') {
-			bindData = {
-				value: data,
-				get: function get() {
-					return null;
-				}
-			};
-		} else {
-			bindData = data;
+	function LinkProperty(data, change, result) {
+		for (var i in data) {
+			var value = data[i];
+			value = LinkData(value, change);
+			(function (value) {
+				Object.defineProperty(result, i, {
+					set: function set(inValue) {
+						value = inValue;
+						change();
+					},
+					get: function get() {
+						return value;
+					}
+				});
+			})(value);
 		}
-		bindData.parent = function () {
-			return parent;
-		};
-		bindData.index = function () {
-			return key;
-		};
-		bindData.link = function (index) {
-			var newValue = bindData.get(index);
-			return LinkData(newValue, index, bindData);
-		};
-		bindData.change = function (value) {
-			var newValue = parent.set(key, value);
-			parent.change(newValue);
-		};
-		return bindData;
 	}
 
-	function LinkTopData(component, key, value) {
-		var bindData = value;
-		bindData.parent = function () {
-			return null;
-		};
-		bindData.index = function () {
-			return -1;
-		};
-		bindData.link = function (index) {
-			var newValue = bindData.get(index);
-			return LinkData(newValue, index, bindData);
-		};
-		bindData.change = function (value) {
-			component.state[key] = LinkTopData(component, key, value);
+	function LinkFunction(data, result) {
+		for (var i in data) {
+			Object.defineProperty(result, i, {
+				enumerable: false,
+				configurable: false,
+				writable: false,
+				value: data[i]
+			});
+		}
+	}
+
+	function LinkArray(data, change) {
+		var result = [];
+		LinkProperty(data, change, result);
+		LinkFunction({
+			change: change
+		}, result);
+		return result;
+	}
+
+	function LinkObject(data, change) {
+		var result = {};
+		LinkProperty(data, change, result);
+		LinkFunction({
+			change: change
+		}, result);
+		return result;
+	}
+
+	function LinkData(data, change) {
+		if (data == null || typeof data == 'undefined') {
+			return data;
+		}
+		if (typeof data == 'number' || typeof data == 'string' || typeof data == 'boolean') {
+			return data;
+		} else if (data instanceof Array) {
+			return LinkArray(data, change);
+		} else {
+			return LinkObject(data, change);
+		}
+	}
+
+	function LinkState(component, key, state) {
+		var change = function change() {
 			component.setState({});
 		};
-		return bindData;
-	}
-
-	function LinkState(component, key, value) {
-		var bindData = LinkTopData(component, key, value);
+		state = LinkData(state, change);
 		var result = {};
-		result[key] = bindData;
+		result[key] = state;
 		return result;
 	}
 
@@ -25496,12 +25514,12 @@
 	  },
 	  handleSave: function handleSave(text) {
 	    if (text.length === 0) {
-	      var todos = this.props.todo.parent();
-	      var todoIndex = this.props.todo.index();
-	      var newTodos = todos.splice(todoIndex, 1);
-	      todos.change(newTodos);
+	      var todos = this.props.todos;
+	      var todoIndex = this.props.index;
+	      todos.splice(todoIndex, 1);
+	      todos.change();
 	    } else {
-	      this.props.todo.link('text').change(text);
+	      this.props.todos[this.props.index].text = text;
 	    }
 	    this.setState({ editing: false });
 	  },
@@ -25510,11 +25528,13 @@
 
 	    var _props = this.props;
 	    var completeTodo = _props.completeTodo;
-	    var todo = _props.todo;
+	    var todos = _props.todos;
+	    var index = _props.index;
 
+	    var todo = todos[index];
 	    var element = undefined;
 	    if (this.state.editing) {
-	      element = _react2.default.createElement(_TodoTextInput2.default, { text: todo.get('text'),
+	      element = _react2.default.createElement(_TodoTextInput2.default, { text: todo.text,
 	        editing: this.state.editing,
 	        onSave: function onSave(text) {
 	          return _this.handleSave(text);
@@ -25525,14 +25545,14 @@
 	        { className: 'view' },
 	        _react2.default.createElement('input', { className: 'toggle',
 	          type: 'checkbox',
-	          checked: todo.get('completed'),
+	          checked: todo.completed,
 	          onChange: function onChange() {
 	            return completeTodo();
 	          } }),
 	        _react2.default.createElement(
 	          'label',
 	          { onDoubleClick: this.handleDoubleClick },
-	          todo.get('text')
+	          todo.text
 	        ),
 	        _react2.default.createElement('button', { className: 'destroy',
 	          onClick: function onClick() {
@@ -25544,7 +25564,7 @@
 	    return _react2.default.createElement(
 	      'li',
 	      { className: (0, _classnames2.default)({
-	          completed: todo.get('completed'),
+	          completed: todo.completed,
 	          editing: this.state.editing
 	        }) },
 	      element

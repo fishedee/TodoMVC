@@ -15,23 +15,24 @@ let TodoItem = React.createClass({
 
   handleSave(text) {
     if (text.length === 0) {
-      var todos = this.props.todo.parent();
-      var todoIndex = this.props.todo.index()
-      var newTodos = todos.splice(todoIndex,1);
-      todos.change(newTodos);
+      var todos = this.props.todos;
+      var todoIndex = this.props.index;
+      todos.splice(todoIndex,1);
+      todos.change();
     } else {
-      this.props.todo.link('text').change(text);
+      this.props.todos[this.props.index].text = text;
     }
     this.setState({ editing: false });
   },
 
   render() {
     
-    const {completeTodo,todo} = this.props;
+    const {completeTodo,todos,index} = this.props;
+    var todo = todos[index];
     let element;
     if (this.state.editing) {
       element = (
-        <TodoTextInput text={todo.get('text')}
+        <TodoTextInput text={todo.text}
                        editing={this.state.editing}
                        onSave={(text) => this.handleSave(text)} />
       );
@@ -40,10 +41,10 @@ let TodoItem = React.createClass({
         <div className="view">
           <input className="toggle"
                  type="checkbox"
-                 checked={todo.get('completed')}
+                 checked={todo.completed}
                  onChange={() => completeTodo()} />
           <label onDoubleClick={this.handleDoubleClick}>
-            {todo.get('text')}
+            {todo.text}
           </label>
           <button className="destroy"
                   onClick={()=>this.handleSave('')} />
@@ -53,7 +54,7 @@ let TodoItem = React.createClass({
 
     return (
       <li className={classnames({
-        completed: todo.get('completed'),
+        completed: todo.completed,
         editing: this.state.editing
       })}>
         {element}

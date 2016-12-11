@@ -8,12 +8,12 @@ let Header = React.createClass({
   handleSave(text) {
     if (text.length !== 0) {
       var todos = this.props.todos;
-      var newTodos = todos.push(Immutable.fromJS({
+      todos.push({
         completed:false,
         text:text,
         id:countId++
-      }));
-      todos.change(newTodos);
+      });
+      todos.change();
     }
   },
 
