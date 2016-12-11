@@ -5,7 +5,7 @@ var observe = function (target, arr, callback) {
         var eventPropArr = [];
         if (observe.isArray(target)) {
             if (target.length === 0) {
-                target.$observeProps = {};
+                Object.defineProperty(target,'$observeProps',{value:{}});
                 target.$observeProps.$observerPath = "#";
             }
             $observer.mock(target);
@@ -50,7 +50,7 @@ var observe = function (target, arr, callback) {
         "mock": function (target) {
             var self = this;
             observe.methods.forEach(function (item) {
-                target[item] = function () {
+                Object.defineProperty(target,item,{value:function () {
                     var old = Array.prototype.slice.call(this, 0);
                     var result = Array.prototype[item].apply(this, Array.prototype.slice.call(arguments));
                     if (new RegExp("\\b" + item + "\\b").test(observe.triggerStr)) {
@@ -63,10 +63,7 @@ var observe = function (target, arr, callback) {
                         self.onPropertyChanged("Array-" + item, this, old, this, this.$observeProps.$observerPath);
                     }
                     return result;
-                };
-                target['real'+item.substring(0,1).toUpperCase()+item.substring(1)] = function () {
-                    return Array.prototype[item].apply(this, Array.prototype.slice.call(arguments));
-                };
+                }});
                 target[Symbol.iterator] = function(){
                     var keys = [];
 
@@ -79,13 +76,13 @@ var observe = function (target, arr, callback) {
                             return {done:index >= keys.length,value:[keys[index],target[index++]]};
                         }
                     };
-                }
+                };
             });
         },
         "watch": function (target, prop, path) {
             if (prop === "$observeProps" || prop === "$observer") return;
             if (observe.isFunction(target[prop])) return;
-            if (!target.$observeProps) target.$observeProps = {};
+            if (!target.$observeProps) Object.defineProperty(target,'$observeProps',{value:{}});
             if (path !== undefined) {
                 target.$observeProps.$observerPath = path;
             } else {
@@ -107,7 +104,7 @@ var observe = function (target, arr, callback) {
                 if (observe.isArray(currentValue)) {
                     this.mock(currentValue);
                     if (currentValue.length === 0) {
-                        if (!currentValue.$observeProps) currentValue.$observeProps = {};
+                        if (!currentValue.$observeProps) Object.defineProperty(currentValue,'$observeProps',{value:{}});
                         if (path !== undefined) {
                             currentValue.$observeProps.$observerPath = path;
                         } else {

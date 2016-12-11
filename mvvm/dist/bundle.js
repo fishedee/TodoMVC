@@ -19665,8 +19665,6 @@
 
 	'use strict';
 
-	var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -19708,98 +19706,24 @@
 	    this.addLogCount();
 	    var todos = this.state.data.todos;
 	    var areAllMarked = true;
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
-
-	    try {
-	      for (var _iterator = todos[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	        var _step$value = _slicedToArray(_step.value, 2);
-
-	        var i = _step$value[0];
-	        var todo = _step$value[1];
-
-	        if (todo.completed == false) {
-	          areAllMarked = false;
-	          break;
-	        }
-	      }
-	    } catch (err) {
-	      _didIteratorError = true;
-	      _iteratorError = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion && _iterator.return) {
-	          _iterator.return();
-	        }
-	      } finally {
-	        if (_didIteratorError) {
-	          throw _iteratorError;
-	        }
+	    for (var i in todos) {
+	      if (todos[i].completed == false) {
+	        areAllMarked = false;
+	        break;
 	      }
 	    }
-
-	    var _iteratorNormalCompletion2 = true;
-	    var _didIteratorError2 = false;
-	    var _iteratorError2 = undefined;
-
-	    try {
-	      for (var _iterator2 = todos[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	        var _step2$value = _slicedToArray(_step2.value, 2);
-
-	        var i = _step2$value[0];
-	        var todo = _step2$value[1];
-
-	        todo.completed = !areAllMarked;
-	      }
-	    } catch (err) {
-	      _didIteratorError2 = true;
-	      _iteratorError2 = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-	          _iterator2.return();
-	        }
-	      } finally {
-	        if (_didIteratorError2) {
-	          throw _iteratorError2;
-	        }
-	      }
+	    for (var i in todos) {
+	      todos[i].completed = !areAllMarked;
 	    }
 	  },
 	  clearCompleted: function clearCompleted() {
 	    var todos = this.state.data.todos;
 	    var newTodos = [];
-	    var _iteratorNormalCompletion3 = true;
-	    var _didIteratorError3 = false;
-	    var _iteratorError3 = undefined;
-
-	    try {
-	      for (var _iterator3 = todos[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-	        var _step3$value = _slicedToArray(_step3.value, 2);
-
-	        var i = _step3$value[0];
-	        var todo = _step3$value[1];
-
-	        if (!todo.completed) {
-	          newTodos.push(todos[i]);
-	        }
-	      }
-	    } catch (err) {
-	      _didIteratorError3 = true;
-	      _iteratorError3 = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion3 && _iterator3.return) {
-	          _iterator3.return();
-	        }
-	      } finally {
-	        if (_didIteratorError3) {
-	          throw _iteratorError3;
-	        }
+	    for (var i in todos) {
+	      if (!todos[i].completed) {
+	        newTodos.push(todos[i]);
 	      }
 	    }
-
 	    this.state.data.todos = newTodos;
 	  },
 	  render: function render() {
@@ -25006,8 +24930,6 @@
 
 	'use strict';
 
-	var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
-
 	var _TODO_FILTERS;
 
 	Object.defineProperty(exports, "__esModule", {
@@ -25051,37 +24973,12 @@
 	    var todos = this.props.todos;
 
 	    var atLeastOneCompleted = false;
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
-
-	    try {
-	      for (var _iterator = todos[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	        var _step$value = _slicedToArray(_step.value, 2);
-
-	        var i = _step$value[0];
-	        var todo = _step$value[1];
-
-	        if (todo.completed) {
-	          atLeastOneCompleted = true;
-	          break;
-	        }
-	      }
-	    } catch (err) {
-	      _didIteratorError = true;
-	      _iteratorError = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion && _iterator.return) {
-	          _iterator.return();
-	        }
-	      } finally {
-	        if (_didIteratorError) {
-	          throw _iteratorError;
-	        }
+	    for (var i in todos) {
+	      if (todos[i].completed) {
+	        atLeastOneCompleted = true;
+	        break;
 	      }
 	    }
-
 	    if (atLeastOneCompleted) {
 	      this.props.clearCompleted();
 	    }
@@ -25122,70 +25019,21 @@
 	    var filter = this.state.filter;
 
 	    var completedCount = 0;
-	    var _iteratorNormalCompletion2 = true;
-	    var _didIteratorError2 = false;
-	    var _iteratorError2 = undefined;
-
-	    try {
-	      for (var _iterator2 = todos[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	        var _step2$value = _slicedToArray(_step2.value, 2);
-
-	        var i = _step2$value[0];
-	        var todo = _step2$value[1];
-
-	        if (todo.completed) {
-	          completedCount++;
-	        }
+	    for (var i in todos) {
+	      var todo = todos[i];
+	      if (todo.completed) {
+	        completedCount++;
 	      }
-	    } catch (err) {
-	      _didIteratorError2 = true;
-	      _iteratorError2 = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-	          _iterator2.return();
-	        }
-	      } finally {
-	        if (_didIteratorError2) {
-	          throw _iteratorError2;
-	        }
-	      }
-	    }
-
-	    ;
+	    };
 
 	    var todoItems = [];
-	    var _iteratorNormalCompletion3 = true;
-	    var _didIteratorError3 = false;
-	    var _iteratorError3 = undefined;
-
-	    try {
-	      for (var _iterator3 = todos[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-	        var _step3$value = _slicedToArray(_step3.value, 2);
-
-	        var index = _step3$value[0];
-	        var todo = _step3$value[1];
-
-	        if (TODO_FILTERS[filter](todo) == false) {
-	          continue;
-	        }
-	        todoItems.push(_react2.default.createElement(_TodoItem2.default, { key: todos[index].id, todos: todos, index: index, completeTodo: completeTodo.bind(null, index) }));
+	    for (var index in todos) {
+	      var todo = todos[index];
+	      if (TODO_FILTERS[filter](todo) == false) {
+	        continue;
 	      }
-	    } catch (err) {
-	      _didIteratorError3 = true;
-	      _iteratorError3 = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion3 && _iterator3.return) {
-	          _iterator3.return();
-	        }
-	      } finally {
-	        if (_didIteratorError3) {
-	          throw _iteratorError3;
-	        }
-	      }
+	      todoItems.push(_react2.default.createElement(_TodoItem2.default, { key: todos[index].id, todos: todos, index: index, completeTodo: completeTodo.bind(null, index) }));
 	    }
-
 	    return _react2.default.createElement(
 	      'section',
 	      { className: 'main' },
@@ -25566,7 +25414,7 @@
 	        var eventPropArr = [];
 	        if (observe.isArray(target)) {
 	            if (target.length === 0) {
-	                target.$observeProps = {};
+	                Object.defineProperty(target, '$observeProps', { value: {} });
 	                target.$observeProps.$observerPath = "#";
 	            }
 	            $observer.mock(target);
@@ -25610,23 +25458,20 @@
 	        "mock": function mock(target) {
 	            var self = this;
 	            observe.methods.forEach(function (item) {
-	                target[item] = function () {
-	                    var old = Array.prototype.slice.call(this, 0);
-	                    var result = Array.prototype[item].apply(this, Array.prototype.slice.call(arguments));
-	                    if (new RegExp("\\b" + item + "\\b").test(observe.triggerStr)) {
-	                        for (var cprop in this) {
-	                            if (this.hasOwnProperty(cprop) && !observe.isFunction(this[cprop])) {
-	                                self.watch(this, cprop, this.$observeProps.$observerPath);
+	                Object.defineProperty(target, item, { value: function value() {
+	                        var old = Array.prototype.slice.call(this, 0);
+	                        var result = Array.prototype[item].apply(this, Array.prototype.slice.call(arguments));
+	                        if (new RegExp("\\b" + item + "\\b").test(observe.triggerStr)) {
+	                            for (var cprop in this) {
+	                                if (this.hasOwnProperty(cprop) && !observe.isFunction(this[cprop])) {
+	                                    self.watch(this, cprop, this.$observeProps.$observerPath);
+	                                }
 	                            }
+	                            //todo
+	                            self.onPropertyChanged("Array-" + item, this, old, this, this.$observeProps.$observerPath);
 	                        }
-	                        //todo
-	                        self.onPropertyChanged("Array-" + item, this, old, this, this.$observeProps.$observerPath);
-	                    }
-	                    return result;
-	                };
-	                target['real' + item.substring(0, 1).toUpperCase() + item.substring(1)] = function () {
-	                    return Array.prototype[item].apply(this, Array.prototype.slice.call(arguments));
-	                };
+	                        return result;
+	                    } });
 	                target[Symbol.iterator] = function () {
 	                    var keys = [];
 
@@ -25645,7 +25490,7 @@
 	        "watch": function watch(target, prop, path) {
 	            if (prop === "$observeProps" || prop === "$observer") return;
 	            if (observe.isFunction(target[prop])) return;
-	            if (!target.$observeProps) target.$observeProps = {};
+	            if (!target.$observeProps) Object.defineProperty(target, '$observeProps', { value: {} });
 	            if (path !== undefined) {
 	                target.$observeProps.$observerPath = path;
 	            } else {
@@ -25667,7 +25512,7 @@
 	                if (observe.isArray(currentValue)) {
 	                    this.mock(currentValue);
 	                    if (currentValue.length === 0) {
-	                        if (!currentValue.$observeProps) currentValue.$observeProps = {};
+	                        if (!currentValue.$observeProps) Object.defineProperty(currentValue, '$observeProps', { value: {} });
 	                        if (path !== undefined) {
 	                            currentValue.$observeProps.$observerPath = path;
 	                        } else {

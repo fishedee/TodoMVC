@@ -19,8 +19,8 @@ let MainSection = React.createClass({
   handleClearCompleted() {
     const {todos} = this.props;
     var atLeastOneCompleted = false;
-    for( var [i,todo] of todos ){
-      if( todo.completed ){
+    for( var i in todos ){
+      if( todos[i].completed ){
         atLeastOneCompleted = true;
         break;
       }
@@ -67,14 +67,16 @@ let MainSection = React.createClass({
     const { filter } = this.state;
 
     let completedCount = 0;
-    for(var [i,todo] of todos ){
+    for(var i in todos ){
+      var todo = todos[i];
       if(todo.completed){
         completedCount++;
       }
     };
     
     var todoItems = [];
-    for(var [index,todo] of todos ){
+    for(var index in todos ){
+        var todo = todos[index];
         if( TODO_FILTERS[filter](todo) == false ){
           continue;
         }

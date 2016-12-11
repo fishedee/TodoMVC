@@ -27,21 +27,21 @@ let App = React.createClass({
     this.addLogCount();
     var todos = this.state.data.todos;
     var areAllMarked = true;
-    for( var [i,todo] of todos ){
-      if(todo.completed == false){
+    for( var i in todos ){
+      if(todos[i].completed == false){
         areAllMarked = false;
         break;
       }
     }
-    for( var [i,todo] of todos ){
-      todo.completed = !areAllMarked;
+    for( var i in todos ){
+      todos[i].completed = !areAllMarked;
     }
   },
   clearCompleted(){
     var todos = this.state.data.todos;
     var newTodos = [];
-    for(var [i,todo] of todos ){
-      if( !todo.completed ){
+    for(var i in todos ){
+      if( !todos[i].completed ){
         newTodos.push(todos[i]);
       }
     }
