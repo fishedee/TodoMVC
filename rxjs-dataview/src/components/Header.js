@@ -1,13 +1,13 @@
 import React from 'react';
 import TodoTextInput from './TodoTextInput';
+import Todos from '../stores/todos';
 
 let Header = React.createClass({
   handleSave(text) {
     if (text.length !== 0) {
-      this.props.addTodo(text);
+      Todos.addTodo(text);
     }
   },
-
   render() {
     return (
       <header className="header">

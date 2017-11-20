@@ -1,65 +1,60 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 import Footer from './Footer';
-import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
-
-const TODO_FILTERS = {
-  [SHOW_ALL]: () => true,
-  [SHOW_ACTIVE]: todo => !todo.get('completed'),
-  [SHOW_COMPLETED]: todo => todo.get('completed')
-};
+import FilterTodos from '../stores/filtertodos';
+import Filter from '../stores/filter';
+import Todos from '../stores/todos';
 
 let MainSection = React.createClass({
   getInitialState() {
     return { 
-      filter: SHOW_ALL 
+      filter: null,
+      todos:null, 
     };
   },
-
+  componentWillMount(){
+    Filter.getSubject().subscribe((filter)=>{
+      this.setState({filter:filter});
+    })
+    FilterTodos.getSubject().subscribe(todos=>{
+      this.setState({todos:todos});
+    })
+  },
   handleClearCompleted() {
-    const atLeastOneCompleted = this.props.todos.some(todo => todo.get('completed'));
-    if (atLeastOneCompleted) {
-      this.props.actions.clearCompleted();
-    }
+    Todos.clearCompleted();
   },
 
   handleShow(filter) {
-    this.setState({ filter });
+    Filter.set(filter);
   },
-
   renderToggleAll(completedCount) {
-    const { todos, actions } = this.props;
+    let todos = this.state.todos;
     if (todos.size > 0) {
       return (
         <input className="toggle-all"
                type="checkbox"
                checked={completedCount === todos.size}
-               onChange={actions.completeAll} />
+               onChange={Todos.completeAll.bind(Todos)} />
       );
     }
   },
 
   renderFooter(completedCount) {
-    const { todos } = this.props;
+    const { todos } = this.state;
     const { filter } = this.state;
     const activeCount = todos.size - completedCount;
-
-    if (todos.size) {
-      return (
-        <Footer completedCount={completedCount}
-                activeCount={activeCount}
-                filter={filter}
-                onClearCompleted={this.handleClearCompleted}
-                onShow={this.handleShow} />
-      );
-    }
+    return (
+      <Footer completedCount={completedCount}
+              activeCount={activeCount}
+              filter={filter}
+              onClearCompleted={this.handleClearCompleted}
+              onShow={this.handleShow} />
+    );
   },
 
   render() {
-    const { todos, actions } = this.props;
+    const { todos } = this.state;
     const { filter } = this.state;
-    
-    const filteredTodos = todos.filter(TODO_FILTERS[filter]);
     const completedCount = todos.reduce((count, todo) =>
       todo.get('completed') ? count + 1 : count,
       0
@@ -69,8 +64,8 @@ let MainSection = React.createClass({
       <section className="main">
         {this.renderToggleAll(completedCount)}
         <ul className="todo-list">
-          {filteredTodos.map(todo =>
-            <TodoItem key={todo.get('id')} todo={todo} {...actions} />
+          {todos.map(todo =>
+            <TodoItem key={todo.get('id')} todo={todo} />
           )}
         </ul>
         {this.renderFooter(completedCount)}

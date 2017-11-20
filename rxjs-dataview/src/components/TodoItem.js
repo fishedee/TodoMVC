@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import TodoTextInput from './TodoTextInput';
+import Todos from '../stores/todos';
 
 let TodoItem = React.createClass({
   getInitialState() {
@@ -15,9 +16,9 @@ let TodoItem = React.createClass({
 
   handleSave(id, text) {
     if (text.length === 0) {
-      this.props.deleteTodo(id);
+      Todos.deleteTodo(id);
     } else {
-      this.props.editTodo(id, text);
+      Todos.editTodo(id, text);
     }
     this.setState({ editing: false });
   },
@@ -39,12 +40,12 @@ let TodoItem = React.createClass({
           <input className="toggle"
                  type="checkbox"
                  checked={todo.get('completed')}
-                 onChange={() => completeTodo(todo.get('id'))} />
+                 onChange={() => Todos.completeTodo(todo.get('id'))} />
           <label onDoubleClick={this.handleDoubleClick}>
             {todo.get('text')}
           </label>
           <button className="destroy"
-                  onClick={()=>deleteTodo(todo.get('id'))} />
+                  onClick={()=>Todos.deleteTodo(todo.get('id'))} />
         </div>
       );
     }
