@@ -89,8 +89,7 @@ function Action(Todos){
 						id:todo.get('id'),
 					}
 				};
-			}).toJS())
-			return 
+			}).toJS());
 		})
 
 	var actions = Rx.Observable
